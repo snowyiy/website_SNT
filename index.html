@@ -168,9 +168,29 @@
 
   <section class="do_section layout_padding">
     <div class="container">
-	<video width="320" height="240" controls>
-  		<source src="video.mp4" type="video/mp4">
-	</video> 
+      <h2 class="text-center">Fait Du Jour : </h2>
+      <div id="fait-du-jour" class="text-center"></div>
+
+      <script>
+        // Fonction pour charger le fichier JSON
+        fetch('days_facts.json')
+          .then(response => response.json())
+          .then(data => {
+            const date = new Date();
+            const mois = date.toLocaleString('fr-FR', { month: 'long' }).toLowerCase();
+            const jour = date.getDate().toString();
+
+            const fait = (data[mois] && data[mois][jour] && data[mois][jour][0]) 
+              ? data[mois][jour][0]
+              : data["default"];
+
+            document.getElementById('fait-du-jour').innerText = fait;
+          })
+          .catch(error => {
+            console.error('Erreur lors du chargement du fichier JSON :', error);
+            document.getElementById('fait-du-jour').innerText = "Impossible de charger le fait du jour.";
+          });
+      </script>
     </div>
   </section>
 
